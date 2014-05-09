@@ -18,12 +18,43 @@ class Scorecard
 
   private
 
+  # MAYBE TOO MUCH ABSTRACTION???
+
+  # def thing(frequency, rolls, false_value)
+  #   POSSIBLE_ROLLS.each do |possible_roll|
+  #     number_of_occurrences = rolls.count {|roll| roll == possible_roll}
+  #     return yield(possible_roll, frequency) if number_of_occurrences >= frequency
+  #   end
+  #   false_value
+  # end
+
+  # def score_for_value_with_frequency(frequency, rolls)
+  #   thing(frequency, rolls, 0) do |possible_roll, frequency|
+  #     possible_roll * frequency
+  #   end
+  # end
+
+  # def any_number_with_frequency?(frequency, rolls)
+  #   thing(frequency, rolls, false) do |possible_roll, frequency|
+  #     true
+  #   end
+  # end
+
+
   def score_for_value_with_frequency(frequency, rolls)
     POSSIBLE_ROLLS.each do |possible_roll|
       number_of_occurrences = rolls.count {|roll| roll == possible_roll}
-      return possible_roll * frequency if number_of_occurrences >=frequency
+      return possible_roll * frequency if number_of_occurrences >= frequency
     end
     0
+  end
+
+  def any_number_with_frequency?(frequency, rolls)
+    POSSIBLE_ROLLS.each do |possible_roll|
+      number_of_occurrences = rolls.count {|roll| roll == possible_roll}
+      return true if number_of_occurrences >= frequency
+    end
+    false
   end
 
   def three_of_a_kind(rolls)
@@ -32,6 +63,10 @@ class Scorecard
 
   def four_of_a_kind(rolls)
     score_for_value_with_frequency(4, rolls)
+  end
+
+  def full_house(rolls)
+    any_number_with_frequency?(3, rolls) && rolls.uniq.count == 2 ? 25 : 0
   end
 end
 

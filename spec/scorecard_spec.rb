@@ -43,4 +43,16 @@ describe Scorecard do
       @scorecard.total_score.should == 0
     end
   end
+
+  context "full_house" do
+    it "is worth 25 points" do
+      @scorecard.fill_slot(:full_house, [1,1,1,2,2])
+      @scorecard.total_score.should == 25
+    end
+
+    it "should equal 0 if not full house" do
+      @scorecard.fill_slot(:full_house, [1,1,2,3,4])
+      @scorecard.total_score.should == 0
+    end
+  end
 end
